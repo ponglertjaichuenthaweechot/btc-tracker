@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Futures Tracker</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      color: #4da6ff;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .chart-box, .volume-box {
+      background-color: #1e1e1e;
+      padding: 1rem;
+      border-radius: 10px;
+      width: 400px;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Futures Tracker: BTC & ETH</h1>
+  <div class="container">
+    <div class="chart-box">
+      <h2>BTCUSDT 4H Chart</h2>
+      <iframe src="https://www.tradingview.com/embed-widget/mini-symbol-overview/?symbol=BINANCE:BTCUSDT&interval=240&studies=RSI,MACD&theme=dark"></iframe>
+    </div>
+    <div class="chart-box">
+      <h2>ETHUSDT 4H Chart</h2>
+      <iframe src="https://www.tradingview.com/embed-widget/mini-symbol-overview/?symbol=BINANCE:ETHUSDT&interval=240&studies=RSI,MACD&theme=dark"></iframe>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="volume-box">
+      <h3>BTC Futures Volume (Mock Data)</h3>
+      <div id="btc-volume">Loading...</div>
+    </div>
+    <div class="volume-box">
+      <h3>ETH Futures Volume (Mock Data)</h3>
+      <div id="eth-volume">Loading...</div>
+    </div>
+  </div>
+
+  <script>
+    const mockVolumeData = {
+      BTC: {
+        volume: "23.71K",
+        change: "+2.3%"
+      },
+      ETH: {
+        volume: "1.07M",
+        change: "-1.2%"
+      }
+    };
+
+    document.getElementById("btc-volume").innerHTML = `
+      Volume: ${mockVolumeData.BTC.volume} <br>
+      Change: ${mockVolumeData.BTC.change}
+    `;
+
+    document.getElementById("eth-volume").innerHTML = `
+      Volume: ${mockVolumeData.ETH.volume} <br>
+      Change: ${mockVolumeData.ETH.change}
+    `;
+  </script>
+</body>
+</html>
