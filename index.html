@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,53 +32,50 @@
       width: 100%;
       height: 300px;
     }
+    .price {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      color: #00ffcc;
+    }
   </style>
 </head>
 <body>
   <h1>📊 Futures Tracker: BTC & ETH</h1>
+
   <div class="container">
     <div class="chart-box">
       <h2>BTCUSDT 4H Chart</h2>
       <iframe src="https://www.tradingview.com/embed-widget/mini-symbol-overview/?symbol=BINANCE:BTCUSDT&interval=240&studies=RSI,MACD&theme=dark"></iframe>
+      <div id="btc-price" class="price">Loading BTC price...</div>
     </div>
     <div class="chart-box">
       <h2>ETHUSDT 4H Chart</h2>
       <iframe src="https://www.tradingview.com/embed-widget/mini-symbol-overview/?symbol=BINANCE:ETHUSDT&interval=240&studies=RSI,MACD&theme=dark"></iframe>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="volume-box">
-      <h3>BTC Futures Volume (Mock Data)</h3>
-      <div id="btc-volume">Loading...</div>
-    </div>
-    <div class="volume-box">
-      <h3>ETH Futures Volume (Mock Data)</h3>
-      <div id="eth-volume">Loading...</div>
+      <div id="eth-price" class="price">Loading ETH price...</div>
     </div>
   </div>
 
   <script>
-    const mockVolumeData = {
-      BTC: {
-        volume: "23.71K",
-        change: "+2.3%"
-      },
-      ETH: {
-        volume: "1.07M",
-        change: "-1.2%"
+    async function fetchPrice(symbol, elementId) {
+      try {
+        const response = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+        const data = await response.json();
+        document.getElementById(elementId).innerHTML = `Price: $${parseFloat(data.price).toFixed(2)}`;
+      } catch (error) {
+        document.getElementById(elementId).innerHTML = 'Error loading price';
+        console.error(error);
       }
-    };
+    }
 
-    document.getElementById("btc-volume").innerHTML = `
-      Volume: ${mockVolumeData.BTC.volume} <br>
-      Change: ${mockVolumeData.BTC.change}
-    `;
+    function updatePrices() {
+      fetchPrice("BTCUSDT", "btc-price");
+      fetchPrice("ETHUSDT", "eth-price");
+    }
 
-    document.getElementById("eth-volume").innerHTML = `
-      Volume: ${mockVolumeData.ETH.volume} <br>
-      Change: ${mockVolumeData.ETH.change}
-    `;
+    // เริ่มโหลดราคา และตั้งเวลาอัปเดตทุก 5 วินาที
+    updatePrices();
+    setInterval(updatePrices, 5000);
   </script>
 </body>
 </html>
+
